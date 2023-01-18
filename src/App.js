@@ -1,25 +1,49 @@
-import logo from './logo.svg';
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 import './App.css';
+import '../node_modules/bootstrap-icons/bootstrap-icons.svg'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Login from "./Login/Login";
+import Forgot from "./Login/Forgot";
+import Signup from "./Login/Signup";
+import Reset from "./Login/Reset";
+import PortalLayout from "./Portal/PortalLayout";
+import Modal from "./WorkSpace/Modal";
+import SourceModal from "./AddSource/SourceModal";
+import Fileupload from "./File/Fileupload";
+import Remove from "./Remove";
+import AllApps from "./Data/AllApps";
+import Favorites from "./Data/Favorites";
+import Shared from "./Data/Shared";
+import Trash1 from "./Data/Trash1";
+import View from "./Filter/View";
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />}></Route>
+        <Route path="/logout" element={<Remove />}></Route>
+        <Route path="/forgot" element={<Forgot />}></Route>
+        <Route path="/signup" element={<Signup />}></Route>
+        <Route path="/reset/:userId" element={<Reset />}></Route>
+        <Route path="/portal" element={<PortalLayout />}>
+        <Route path="modal" element={<Modal />}></Route>
+        <Route path="addsource" element={<SourceModal />}></Route>
+        <Route path="file" element={<Fileupload />}></Route>
+        <Route path="all-apps" element={<AllApps />}></Route>
+        <Route path="favorites" element={<Favorites />}></Route>
+        <Route path="shared" element={<Shared />}></Route>
+        <Route path="trash" element={<Trash1/>}></Route>
+        </Route>
+        <Route path="/ploymerview" element={<View/>}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 export default App;
+
