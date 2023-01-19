@@ -8,13 +8,35 @@ import { UserContext } from "../UserContext";
 function Modal() {
   const {user} = useContext(UserContext);
   const [show, setShow] = useState(true);
+  const userId = localStorage.getItem("user");
   const navigate = useNavigate();
+  const {setWorkspace} = useContext(UserContext);
+  const {setHead} = useContext(UserContext);
+  const {setCurrentWorkSpace } = useContext(UserContext);
+
+  let fetchData = async () => {
+    try {
+      let user_id = localStorage.getItem("user");
+      const workSpace = await axios.get(`${config.api}/workspace/${user_id}`, {
+        headers: {
+          Authorization: localStorage.getItem("myreact"),
+        },
+      });
+      setWorkspace(workSpace.data);
+      setHead(workSpace.data[0].name);
+      setCurrentWorkSpace(workSpace.data[0]);
+    } catch (error) {
+      alert("Error");
+      navigate("/logout");
+    }
+  };
+
   const formik = useFormik({
    initialValues: {
      name: "",
      url: "",
      link:"",
-     user_id:user._id
+     user_id:userId,
    },
 
    onSubmit: async (values) => {
@@ -25,7 +47,9 @@ function Modal() {
           }
         });
        formik.resetForm();
+       fetchData();
        setShow(false);
+       navigate("/portal");
      } catch (error) {
       alert("Error");
       navigate("/logout");
@@ -85,9 +109,18 @@ let urls = formik.values.name.toLowerCase();
                   </div>
                   <div>{`${config.api}/${formik.values.url}/${user._id}`}</div>
                   <hr/>
-                  <button type="submit" className="btn btn-secondary btn-lg">
+                  <button type="submit" className="btn btn-secondary btn-lg me-2">
                     Create
                   </button>
+
+                  <button onClick={() =>{
+                     setShow(false)
+                     navigate("/portal")
+                  }} 
+                  className="btn btn-secondary btn-lg">
+                    close
+                  </button>
+
                 </form>
               </div>
             </div>

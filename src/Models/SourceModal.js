@@ -11,8 +11,7 @@ import * as XLSX from "xlsx";
 function SourceModal() {
   const { model, setModel } = useContext(UserContext);
   const inputRef = React.useRef(null);
-  // const [file, setFile] = useState();
-  const { user } = useContext(UserContext);
+  const { currentWorkSpace } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -21,24 +20,25 @@ function SourceModal() {
   };
 
   const [excelData, setExcelData] = useState(null);
+  const [FileName, setFileName] = useState(null);
 
   function handleFile(e) {
     let selectedFile = e.target.files[0];
-    let FileName = selectedFile.name;
+    setFileName(selectedFile.name);
     if (selectedFile) {
       let reader = new FileReader();
       reader.readAsArrayBuffer(selectedFile);
       reader.onload = (e) => {
         let value = e.target.result;
         // setExcelFile(value);
-        handleUpload(e, value, FileName);
+        handleUpload(e, value);
       };
     } else {
       console.log("plz select your file");
     }
   }
 
-  function handleUpload(e, value, FileName) {
+  function handleUpload(e, value) {
     e.preventDefault();
     if (value) {
       const workbook = XLSX.read(value, { type: "buffer" });
@@ -46,8 +46,6 @@ function SourceModal() {
       const worksheet = workbook.Sheets[worksheetName];
       const data = XLSX.utils.sheet_to_json(worksheet);
       setExcelData(data);
-      // setObjectName(Object.keys(data[0]));
-      uploadFile(data, FileName);
     } else {
       setExcelData(null);
       return;
@@ -55,19 +53,21 @@ function SourceModal() {
   }
 
   //upload csv/xlsx of json to mongodb
-  let uploadFile = async (data, FileName) => {
-    let user_id = localStorage.getItem("user");
+  let uploadFile = async () => {
+    let workSpace_id = currentWorkSpace._id;
     let type = "normal"
-    let values = { data, FileName, user_id, type };
+    let data = excelData;
+    let values = { data, FileName, workSpace_id, type };
+
     try {
       const upload = await axios.post(`${config.api}/upload`, values, {
         headers: {
           Authorization: localStorage.getItem("myreact"),
         },
       });
-      console.log(upload);
+      alert(upload.data.message);
     } catch (error) {
-      alert("Internal Server Error",error);
+      alert("Internal Server Error");
       navigate("/logout");
     }
   };
@@ -134,6 +134,9 @@ function SourceModal() {
               </div>
             </div>
             <br />
+            <button onClick={() =>uploadFile()} className="btn btn-dark me-2">
+              Upload
+            </button>
             <button onClick={() => setModel(false)} className="btn btn-dark">
               Close
             </button>

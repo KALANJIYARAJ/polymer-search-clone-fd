@@ -16,12 +16,12 @@ function Data({fName}) {
     >
       <Icon.Heart /> Favorites
     </div>
-    <div
+    {/* <div
       className="btn btn-outline-dark px-3 mt-2 text-start buttonwidth"
       onClick={() => fName("Shared","shared")}
     >
       <Icon.Globe /> Shared
-    </div>
+    </div> */}
     <div
       className="btn btn-outline-dark px-3 mt-2 text-start buttonwidth"
       onClick={() => fName("Trash","trash")}

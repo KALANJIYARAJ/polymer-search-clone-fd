@@ -1,13 +1,10 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { config } from "../config";
-import { UserContext } from "../UserContext";
 
 function Login() {
   const navigate = useNavigate();
-  const {setUser} = useContext(UserContext);
 
   const formik = useFormik({
     initialValues: {
@@ -45,15 +42,7 @@ function Login() {
         if (user1.data.message == 'login successfully') {
           localStorage.setItem("myreact",user1.data.token);
           localStorage.setItem("user",user1.data.user._id);
-          setUser(user1.data.user);
           navigate("/portal");
-          // localStorage.removeItem("myreact");
-          // {
-          //   headers: {
-          //     Authorization: localStorage.getItem("myreact"),
-          //   }
-          // };
-
         }else {
           alert("incorrect username/password");
         }

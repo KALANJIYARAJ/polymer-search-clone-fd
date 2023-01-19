@@ -6,23 +6,26 @@ import { UserContext } from '../UserContext';
 
 function AllApps() {
 
-    const {polymers, setPolymers} = useContext(UserContext);
+    const {setPolymers} = useContext(UserContext);
+    const { filterPolymer, setFilterPolymer } = useContext(UserContext);
     const navigate = useNavigate();
+    const { currentWorkSpace } = useContext(UserContext);
     let count  = 1;
 
     useEffect(() => {
-        fetchData();
+      fetchFile();
       }, []);
     
-      let fetchData = async () => {
+      let fetchFile = async () => {
         try {
-          let user_id = localStorage.getItem("user");
-          const xlxsData = await axios.get(`${config.api}/upload/${user_id}`, {
+          let workSpace_id = currentWorkSpace._id;
+          const xlxsData = await axios.get(`${config.api}/upload/${workSpace_id}`, {
             headers: {
               Authorization: localStorage.getItem("myreact"),
             },
           });
           setPolymers(xlxsData.data);
+          setFilterPolymer(xlxsData.data);
         } catch (error) {
           alert("Error");
           navigate("/logout");
@@ -38,12 +41,13 @@ function AllApps() {
             },
           });
           alert(typeChange.data.message);
-          fetchData();
+          fetchFile();
         } catch (error) {
           alert("Error");
-          // navigate("/logout");
+          navigate("/logout");
         }
       }
+
   return (
 <table class="table table-hover">
   <thead>
@@ -55,7 +59,7 @@ function AllApps() {
     </tr>
   </thead>
   <tbody>
-  {polymers.map((item, index) => {
+  {filterPolymer.map((item, index) => {
     if(item.type != "trash"){
     return(
       <tr key={index}>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 
 function Favorites() {
-  const {polymers, setPolymers} = useContext(UserContext);
+  const { polymers } = useContext(UserContext);
   let count  = 1;
 
 return (
