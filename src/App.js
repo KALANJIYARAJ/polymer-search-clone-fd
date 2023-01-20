@@ -1,8 +1,8 @@
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
-import './App.css';
-import '../node_modules/bootstrap-icons/bootstrap-icons.svg'
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import "./App.css";
+import "../node_modules/bootstrap-icons/bootstrap-icons.svg";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./Login/Login";
 import Forgot from "./Login/Forgot";
 import Signup from "./Login/Signup";
@@ -17,12 +17,15 @@ import Shared from "./Data/Shared";
 import Trash1 from "./Data/Trash1";
 import View from "./Filter/View";
 import { SettingModal } from "./Models/SettingModal";
-
-
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { Responsive } from "./Responsive";
 
 function App() {
-  return (
-    
+  const matches = useMediaQuery("(min-width:1200px)");
+
+  console.log(matches);
+
+  return matches ? (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />}></Route>
@@ -31,19 +34,20 @@ function App() {
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/reset/:userId" element={<Reset />}></Route>
         <Route path="/portal" element={<PortalLayout />}>
-        <Route path="modal" element={<Modal />}></Route>
-        <Route path="setting" element={<SettingModal />}></Route>
-        <Route path="addsource" element={<SourceModal />}></Route>
-        <Route path="all-apps" element={<AllApps />}></Route>
-        <Route path="favorites" element={<Favorites />}></Route>
-        <Route path="shared" element={<Shared />}></Route>
-        <Route path="trash" element={<Trash1/>}></Route>
+          <Route path="modal" element={<Modal />}></Route>
+          <Route path="setting" element={<SettingModal />}></Route>
+          <Route path="addsource" element={<SourceModal />}></Route>
+          <Route path="all-apps" element={<AllApps />}></Route>
+          <Route path="favorites" element={<Favorites />}></Route>
+          <Route path="shared" element={<Shared />}></Route>
+          <Route path="trash" element={<Trash1 />}></Route>
         </Route>
-        <Route path="/ploymerview" element={<View/>}></Route>
+        <Route path="/ploymerview" element={<View />}></Route>
       </Routes>
     </BrowserRouter>
+  ) : (
+    <Responsive />
   );
 }
 
 export default App;
-
