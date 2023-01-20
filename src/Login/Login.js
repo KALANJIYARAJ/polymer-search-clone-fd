@@ -155,6 +155,8 @@ function Login() {
                   Register
                 </Link>
               </p>
+
+              <div className="text-success">testuser1@gmail.com && test1234</div>
             </div>
           </form>
         </div>
