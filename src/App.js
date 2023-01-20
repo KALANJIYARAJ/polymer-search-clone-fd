@@ -17,13 +17,12 @@ import Shared from "./Data/Shared";
 import Trash1 from "./Data/Trash1";
 import View from "./Filter/View";
 import { SettingModal } from "./Models/SettingModal";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import { Responsive } from "./Responsive";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function App() {
   const matches = useMediaQuery("(min-width:1200px)");
 
-  console.log(matches);
 
   return matches ? (
     <BrowserRouter>
