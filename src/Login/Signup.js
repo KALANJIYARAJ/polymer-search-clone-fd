@@ -76,9 +76,9 @@ function Signup() {
           {" "}
           <form onSubmit={formik.handleSubmit}>
             <div className="col-lg-12 mb-4">
-              <h3>Login</h3>
+              <h3>Signup</h3>
             </div>
-            <div className="col-lg-12 border rounded mb-4">
+            {/* <div className="col-lg-12 border rounded mb-4">
               <img
                 src="https://app.polymersearch.com/icons/google-account.svg"
                 className="icon1"
@@ -96,7 +96,7 @@ function Signup() {
                 <span>Sign in with Google</span>
               </a>
             </div>
-            <p className="divider text-black-50">or</p>
+            <p className="divider text-black-50">or</p> */}
 
             <div className="col-lg-12">
               <div className="row">

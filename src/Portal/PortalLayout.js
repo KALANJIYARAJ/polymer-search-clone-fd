@@ -2,12 +2,13 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { BiRefresh } from "react-icons/bi";
 import { FiLogOut } from "react-icons/fi";
 import * as Icon from "react-bootstrap-icons";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import axios from "axios";
 import { config } from "../config";
 import SourceModal from "../Models/SourceModal";
 import Data from "../Data/Data";
+import { WorkSpace } from "./WorkSpace";
 
 function PortalLayout() {
   const {head, setHead} = useContext(UserContext);
@@ -18,15 +19,15 @@ function PortalLayout() {
   const {polymers, setPolymers} = useContext(UserContext);
   const navigate = useNavigate();
   const { setFilterPolymer } = useContext(UserContext);
+  const user_id = localStorage.getItem("user");
 
   useEffect(() => {
-    fetchData();
     fetchUser();
   }, []);
 
+
   let fetchUser = async () => {
     try {
-      let user_id = localStorage.getItem("user");
       const getUser = await axios.get(`${config.api}/user/${user_id}`, {
         headers: {
           Authorization: localStorage.getItem("myreact"),
@@ -39,38 +40,6 @@ function PortalLayout() {
     }
   };
   
-  let fetchData = async () => {
-    try {
-      let user_id = localStorage.getItem("user");
-      const workSpace = await axios.get(`${config.api}/workspace/${user_id}`, {
-        headers: {
-          Authorization: localStorage.getItem("myreact"),
-        },
-      });
-      setWorkspace(workSpace.data);
-      setHead(workSpace.data[0].name);
-      setCurrentWorkSpace(workSpace.data[0]);
-    } catch (error) {
-      alert("Error");
-      navigate("/logout");
-    }
-  };
-
-  let fetchFile = async (item) => {
-    setCurrentWorkSpace(item);
-    setHead(item.name);
-    try {
-      const xlxsData = await axios.get(`${config.api}/upload/${item._id}`, {
-        headers: {
-          Authorization: localStorage.getItem("myreact"),
-        },
-      });
-      setPolymers(xlxsData.data);
-    } catch (error) {
-      alert("Error");
-      navigate("/logout");
-    }
-  };
 
   let getPolymers = (name, link) => {
     setHead(name);
@@ -81,7 +50,7 @@ const globalFilter = (data, value) => {
      
     const objectName = Object.keys(data[0]);
 
-    setFilterPolymer(data.filter((item) =>
+    setFilterPolymer(data.filter((item,index) =>
     objectName.some((key) =>
       item[key].toString().toLowerCase().includes(value)
     ))
@@ -92,66 +61,7 @@ const globalFilter = (data, value) => {
     <div className="container-fluid bg-light">
       <div className="row justify-content-between">
         <div className="col-lg-2 mt-2 p-3">
-          <span className="fw-bold">
-            <div className="dropdown">
-              <a
-                className="btn btn-light dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <img
-                  src="https://app.polymersearch.com/v2/logo-sm.svg"
-                  className=""
-                  style={{ width: "20px", height: "20px" }}
-                />
-                {currentWorkSpace.name}
-              </a>
-
-              <ul
-                className="dropdown-menu text-center"
-                style={{ width: "300px" }}
-              >
-                {workspace.map((item, index) => {
-                  return (
-                    <li>
-                      <button
-                        onClick={() => {
-                          fetchFile(item)
-                        }}
-                        className="dropdown-item p-2 bg-light text-black mt-1"
-                        key={index}
-                      >
-                        {item.name}
-                      </button>
-                    </li>
-                  );
-                })}
-                <hr />
-                <li>
-                  <Link
-                    className="dropdown-item border rounded m-4 p-2 btn-outline-dark"
-                    to={"modal"}
-                    style={{ width: "250px" }}
-                  >
-                    + New Workspace
-                  </Link>
-                </li>
-              </ul>
-              <br />
-              <br />
-              <button
-                className="btn btn-outline-dark buttonwidth"
-                onClick={() => {
-                  setModel(true);
-                }}
-              >
-                <Icon.PlusCircle /> Add Source
-              </button>
-              <br />
-            </div>
-          </span>
+          <WorkSpace />
           <br /> <br />
           <p>
             Data
@@ -228,7 +138,7 @@ const globalFilter = (data, value) => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    Rk
+                    {user.first_name}
                   </button>
                   <ul className="dropdown-menu">
                     <li>

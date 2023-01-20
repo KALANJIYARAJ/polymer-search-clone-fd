@@ -10,23 +10,30 @@ export const SettingModal = () => {
   const {workspace, setWorkspace} = useContext(UserContext);
   const {setHead} = useContext(UserContext);
   const { setCurrentWorkSpace } = useContext(UserContext);
+  const userId = localStorage.getItem("user");
+
 
   let fetchData = async () => {
     try {
-      let user_id = localStorage.getItem("user");
-      const workSpace = await axios.get(`${config.api}/workspace/${user_id}`, {
+      const getWorkSpace = await axios.get(`${config.api}/workspace/${userId}`, {
         headers: {
           Authorization: localStorage.getItem("myreact"),
         },
       });
-      setWorkspace(workSpace.data);
-      setHead(workSpace.data[0].name);
-      setCurrentWorkSpace(workSpace.data[0]);
+        let message = getWorkSpace.data.message;
+        let workSpace = getWorkSpace.data.workspace
+        if(workSpace.length > 0){
+         setWorkspace(workSpace);
+        setHead(workSpace[0].name);
+        setCurrentWorkSpace(workSpace[0]);
+        }
     } catch (error) {
-      alert("Error");
-      navigate("/logout");
+      alert("Something went for workSpace get");
+        
     }
   };
+
+
 
   //delete workSpace:-
   let deleteWorkSpace = async (id) => {

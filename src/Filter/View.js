@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
 import { Data1 } from "./Data1";
 import NumericFilter from "./NumericFilter";
-import { read, utils, writeFile } from 'xlsx';
+import { utils, writeFile } from 'xlsx';
 
 function View() {
   const location = useLocation();

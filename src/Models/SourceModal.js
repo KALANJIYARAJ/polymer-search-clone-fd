@@ -66,6 +66,8 @@ function SourceModal() {
         },
       });
       alert(upload.data.message);
+      setModel(false);
+      navigate("/portal/all-apps");
     } catch (error) {
       alert("Internal Server Error");
       navigate("/logout");

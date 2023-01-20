@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { config } from '../config';
 import { UserContext } from '../UserContext';
@@ -60,7 +60,7 @@ function AllApps() {
   </thead>
   <tbody>
   {filterPolymer.map((item, index) => {
-    if(item.type != "trash"){
+    if(item.type !== "trash"){
     return(
       <tr key={index}>
       <th scope="row">{count++}</th>
