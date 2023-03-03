@@ -55,7 +55,7 @@ function SourceModal() {
   //upload csv/xlsx of json to mongodb
   let uploadFile = async () => {
     let workSpace_id = currentWorkSpace._id;
-    let type = "normal"
+    let type = "normal";
     let data = excelData;
     let values = { data, FileName, workSpace_id, type };
 
@@ -98,7 +98,7 @@ function SourceModal() {
                   <CgSoftwareUpload /> XLS or CSV
                 </button>
               </div>
-              <div className="col-lg-3">
+              {/* <div className="col-lg-3">
                 <input
                   style={{ display: "none" }}
                   ref={inputRef}
@@ -133,10 +133,10 @@ function SourceModal() {
                 >
                   <SiGooglesheets /> Google Sheet
                 </button>
-              </div>
+              </div> */}
             </div>
             <br />
-            <button onClick={() =>uploadFile()} className="btn btn-dark me-2">
+            <button onClick={() => uploadFile()} className="btn btn-dark me-2">
               Upload
             </button>
             <button onClick={() => setModel(false)} className="btn btn-dark">

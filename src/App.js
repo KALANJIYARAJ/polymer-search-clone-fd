@@ -21,8 +21,7 @@ import { Responsive } from "./Responsive";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 function App() {
-  const matches = useMediaQuery("(min-width:1200px)");
-
+  const matches = useMediaQuery("(min-width:1024px)");
 
   return matches ? (
     <BrowserRouter>
